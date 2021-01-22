@@ -44,16 +44,20 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-    { "Glimpse",     NULL,       NULL,       0,            1,           -1 },
+	{ "Gimp",          NULL,       NULL,       0,            1,           -1 },
+        { "Glimpse",       NULL,       NULL,       0,            1,           -1 },
+        { "mpv",           NULL,       NULL,       0,            1,           -1 },
+        { "Lxappearance",  NULL,       NULL,       0,            1,           -1 },
+        { "Pavucontrol",   NULL,       NULL,       0,            1,           -1 },
+        { "qt5ct",         NULL,       NULL,       0,            1,           -1 },
 	/*{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },*/
 };
 
 /* layout(s) */
 static const float mfact     = 0.50; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
-static const int attachbelow = 1;    /* 1 means attach after the currently active window */
+static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int attachdirection = 3;    /* 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top */
 /*#include "fibonacci.c"*/
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
 #include "vanitygaps.c"
@@ -62,7 +66,7 @@ static const Layout layouts[] = {
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
-    { "[@]",      spiral },
+        { "[@]",      spiral },
 	{ "[\\]",     dwindle },
 	{ "H[]",      deck },
 	{ "TTT",      bstack },
