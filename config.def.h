@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 3;        /* border pixel of windows */
+static const unsigned int borderpx  = 4;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int gappih    = 15;  /* horiz inner gap between windows */
 static const unsigned int gappiv    = 15;  /* vert inner gap between windows */
@@ -14,29 +14,29 @@ static const int usealtbar          = 1;        /* 1 means use non-dwm status ba
 static const char *altbarclass      = "Polybar"; /* Alternate bar class name */
 static const char *altbarcmd        = "$HOME/.config/polybar/bar.sh"; /* Alternate bar launch command */
 /*static const char buttonbar[]           = " ";*/
-static const char *fonts[]     = {"UbuntuMono Nerd Font:size=16:antialias=true:autohint=true",
-                                  "Hack:size=14:antialias=true:autohint=true",
-                                  "JoyPixels:size=14:antialias=true:autohint=true"};
-static const char dmenufont[]  = "UbuntuMono Nerd Font:size=16:antialias=true:autohint=true";
+static const char *fonts[]     = {"UbuntuMono Nerd Font:size=16:style=Medium:antialias=true:autohint=true",
+                                  "Hack:size=16:antialias=true:autohint=true",
+                                  "JoyPixels:size=16:antialias=true:autohint=true"};
+static const char dmenufont[]  = "UbuntuMono Nerd Font:size=16:style=Medium:antialias=true:autohint=true";
 static const char col_1[]  = "#252831"; /* background color of bar */
-static const char col_2[]  = "#444444"; /* border color unfocused windows */
-static const char col_3[]  = "#d7d7d7";
+static const char col_2[]  = "#2E3440"; /* border color unfocused windows */
+static const char col_3[]  = "#d8dee9";
 static const char col_4[]  = "#4c566a";
-static const char col_5[]  = "#3b4252";
+static const char col_5[]  = "#2e3440";
 static const char col_6[]  = "#f0f0f0";
-static const char col_7[]  = "#bf616a";
-static const char col_8[]  = "#a3be8c";
+static const char col_7[]  = "#5e81ac";
+static const char col_8[]  = "#373e4d";
 
 
 static const char *colors[][3]        = {
         /*               fg         bg         border   */
         [SchemeNorm] = { col_3, col_1, col_2 },
-        [SchemeSel]  = { col_3, col_7,  col_7 },
-        [SchemeTitle]  = { col_8, col_5,  col_2  },
+        [SchemeSel]  = { col_3, col_8,  col_7 },
+        [SchemeTitle]  = { col_7, col_1,  col_2  },
 };
 
 /* tagging */
-static const char *tags[] = { " ", " ", "", "", "", "嗢", "", "" };
+static const char *tags[] = { " ", " ", " ", " ", "嗢 ", " ", " " };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -44,7 +44,7 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",          NULL,       NULL,       0,            1,           -1 },
+	    { "Gimp",          NULL,       NULL,       0,            1,           -1 },
         { "Glimpse",       NULL,       NULL,       0,            1,           -1 },
         { "mpv",           NULL,       NULL,       0,            1,           -1 },
         { "Lxappearance",  NULL,       NULL,       0,            1,           -1 },
@@ -66,7 +66,7 @@ static const Layout layouts[] = {
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
-        { "[@]",      spiral },
+    { "[@]",      spiral },
 	{ "[\\]",     dwindle },
 	{ "H[]",      deck },
 	{ "TTT",      bstack },
@@ -104,7 +104,7 @@ static const char *upvol[]   = { "/usr/bin/pactl", "set-sink-volume", "alsa_outp
 static const char *downvol[] = { "/usr/bin/pactl", "set-sink-volume", "alsa_output.pci-0000_29_00.4.analog-stereo", "-5%",     NULL };
 static const char *mutevol[] = { "/usr/bin/pactl", "set-sink-mute",   "alsa_output.pci-0000_29_00.4.analog-stereo", "toggle",  NULL };
 #include <X11/XF86keysym.h>
-
+#include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ ControlMask,     	            XK_space,      spawn,                  {.v = dmenucmd } },
@@ -112,15 +112,15 @@ static Key keys[] = {
     { Mod1Mask,                     XK_s,          togglescratch,          {.v = scratchpadcmd } },
     { Mod1Mask,                     XK_Return,     spawn,                  {.v = termcmd2 } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
-    { MODKEY|ShiftMask,             XK_j,      rotatestack,    {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_k,      rotatestack,    {.i = -1 } },
+    { MODKEY|ShiftMask,             XK_j,      movestack,    {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_k,      movestack,    {.i = -1 } },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
+	{ ControlMask,             XK_Return,     zoom,                {0} },
     { MODKEY|Mod4Mask,              XK_u,      incrgaps,       {.i = +1 } },
 	{ MODKEY|Mod4Mask|ShiftMask,    XK_u,      incrgaps,       {.i = -1 } },
 	{ MODKEY|Mod4Mask,              XK_i,      incrigaps,      {.i = +1 } },
@@ -144,7 +144,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-    { MODKEY|ShiftMask,             XK_f,          togglefullscr,          {0} },
+    { MODKEY|ShiftMask,             XK_f,      togglefullscr,          {0} },
     { MODKEY,                       XK_Tab,    cyclelayout,    {.i = -1 } },
     { MODKEY|ShiftMask,             XK_Tab,    cyclelayout,    {.i = +1 } },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
@@ -181,9 +181,10 @@ static Key keys[] = {
     { Mod1Mask|ShiftMask,       XK_b,       spawn,      CMD("firefox") },
     { Mod1Mask|ShiftMask,       XK_d,       spawn,      CMD("gnome-disks") },
     { Mod1Mask|ShiftMask,       XK_m,       spawn,      CMD("gnome-system-monitor") },
-    { Mod1Mask|ShiftMask,       XK_k,       spawn,      CMD("kate") },
-    { Mod1Mask,                 XK_e,       spawn,      CMD("nemo") },
+    { Mod1Mask,                 XK_v,       spawn,      CMD("vscode") },
+    { Mod1Mask,                 XK_e,       spawn,      CMD("thunar") },
     { Mod1Mask,                 XK_g,       spawn,      CMD("gthumb") },
+	{ Mod1Mask,                 XK_p,       spawn,      CMD("screenshot") },
     { Mod1Mask|ShiftMask,       XK_p,       spawn,      CMD("pavucontrol") },
 };
 
